@@ -31,7 +31,12 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 
-
+import userRouter from './routes/user.routes.js';
+import ocrRouter from './routes/ocr.routes.js';
+import ruleEngineRouter from './routes/processUpload.js';
+app.use("/api/v1/users" , userRouter)
+app.use("/api/v1/ocr" , ocrRouter)
+app.use("/api/v1/process" , ruleEngineRouter)
 
 
 

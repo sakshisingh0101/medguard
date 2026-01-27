@@ -1,7 +1,8 @@
-import { application } from "express";
-import { User } from "../models/user.models";
-import { ApiError } from "../utils/ApiError";
-import { asyncHandler } from "../utils/asyncHandler";
+
+import { User } from "../models/user.models.js";
+import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 const generateAccessAndRefreshToken =async(userId)=>{
   const user=await User.findById(userId);
   const accessToken=await user.generateAccessToken()
@@ -12,8 +13,8 @@ const generateAccessAndRefreshToken =async(userId)=>{
 
 }
 const registeration= asyncHandler(async(req,res)=>{
-    const { email , password} = req.body
-    if(email.trim()===""||password.trim()==="")
+    const { fullName , email , password} = req.body
+    if(fullName.trim()===""|| email.trim()===""||password.trim()==="")
     {
         throw new ApiError(401 , "ALL FIELDS ARE RQUIRED");
     }
@@ -22,6 +23,7 @@ const registeration= asyncHandler(async(req,res)=>{
         throw new ApiError(401,"Invalid Email")
     }
     const user = await User.create({
+        fullName,
         email,
         password
     })
@@ -88,7 +90,7 @@ const login = asyncHandler(async(req,res)=>{
         throw new ApiError(401 , "Invalid password")
     }
 
-    const {accessToken , refreshToken} = await generateAccessAndRefreshToken(user._id);
+    const {accessToken , refreshToken} = await generateAccessAndRefreshToken(existeduser._id);
     const option =
   process.env.NODE_ENV === "production"
     ? {
@@ -145,6 +147,13 @@ res.status(200)
     })
 )
 })
+export const getCurrentUser = async (req, res) => {
+  return res.status(200).json({
+    user: req.user,
+  });
+};
+
+
 
 export {registeration,login,logoutUser};
 

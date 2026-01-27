@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { User } from "./user.models";
+
 const prescriptionSchema = new mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
