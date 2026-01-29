@@ -112,17 +112,73 @@
 // };
 
 
+// export const generateActionPlan = (medicine, rule) => {
+//   const plan = {
+//     medicineId: medicine.name.toLowerCase(),
+//     schedule: [],
+//     purpose: medicine.purpose || "general",
+//     riskLevel: rule?.riskLevel || "low"
+//   };
+
+//   const times = [];
+
+//   // Priority 1: intervalHours
+//   if (rule?.timingRules?.intervalHours) {
+//     let hour = 8;
+//     while (hour < 24) {
+//       times.push(`${String(hour).padStart(2, "0")}:00`);
+//       hour += rule.timingRules.intervalHours;
+//     }
+//   } else {
+//     if (rule?.timingRules?.morning) times.push("08:00");
+//     if (rule?.timingRules?.night) times.push("20:00");
+//   }
+
+//   let relation = "after food";
+
+//   if (rule?.foodRule?.type === "required") {
+//     relation =
+//       rule.foodRule.items?.length > 0
+//         ? rule.foodRule.items.join(", ")
+//         : "empty stomach";
+//   }
+
+//   if (rule?.foodRule?.type === "avoid") {
+//     relation =
+//       rule.foodRule.items?.length > 0
+//         ? `avoid ${rule.foodRule.items.join(", ")}`
+//         : "avoid specific foods";
+//   }
+
+//   times.forEach(time => {
+//     plan.schedule.push({
+//       time,
+//       relation,
+//       message_en: `Take ${medicine.name} at ${time} (${relation})`,
+//       message_hi: `${medicine.name} ${time} बजे लें (${relation})`
+//     });
+//   });
+
+//   if (plan.schedule.length === 0) {
+//     plan.schedule.push({
+//       time: "as prescribed",
+//       relation: "doctor instruction",
+//       message_en: "Follow doctor instructions carefully",
+//       message_hi: "डॉक्टर की सलाह के अनुसार लें"
+//     });
+//   }
+
+//   return plan;
+// };
 export const generateActionPlan = (medicine, rule) => {
   const plan = {
-    medicineId: medicine.name.toLowerCase(),
     schedule: [],
-    purpose: medicine.purpose || "general",
+    purpose: rule?.purpose || "general",
     riskLevel: rule?.riskLevel || "low"
   };
 
   const times = [];
 
-  // Priority 1: intervalHours
   if (rule?.timingRules?.intervalHours) {
     let hour = 8;
     while (hour < 24) {
@@ -170,3 +226,27 @@ export const generateActionPlan = (medicine, rule) => {
 
   return plan;
 };
+
+
+// utils/ruleEngine.service.js
+
+// export const generateActionPlan = (medicine, rule) => {
+//   const schedule = [];
+//   const frequency = Number(medicine.frequency || 1);
+
+//   const defaultTimes = ["08:00", "14:00", "20:00"];
+
+//   for (let i = 0; i < frequency; i++) {
+//     schedule.push({
+//       time: defaultTimes[i] || "08:00",
+//       instruction_en: `Take ${medicine.name} after food`,
+//       instruction_hi: `${medicine.name} भोजन के बाद लें`
+//     });
+//   }
+
+//   return {
+//     schedule,
+//     purpose: rule?.purpose ?? "general",
+//     riskLevel: rule?.riskLevel ?? "low"
+//   };
+// };
