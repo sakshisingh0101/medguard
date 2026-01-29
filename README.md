@@ -1,140 +1,140 @@
-🩺 MedGuard Backend
+# 🧠 MedGuard Backend  
+**AI-Powered Medicine Safety & Decision Engine**
 
-OCR + LLM + Rule Engine powered Medicine Safety System
+---
 
-📌 Overview
+## 📌 Overview
 
-The MedGuard Backend is responsible for transforming unstructured prescription or medicine images into structured, validated, and actionable medicine plans.
+The **MedGuard Backend** is the core intelligence layer of the system.  
+It handles authentication, OCR extraction, LLM-based structuring, rule-engine validation, and generation of personalized medicine safety responses.
 
-It implements a multi-stage processing pipeline involving:
+The backend transforms **raw prescription images + user context** into **actionable, safe, and explainable medicine guidance**.
 
-User authentication
+---
 
-OCR extraction
+## 🧩 High-Level Backend Flow
 
-LLM-based structured data generation
 
-Rule-engine–based medicine safety analysis
-
-The backend acts as the single source of truth for medicine logic, validation, and risk assessment.
-
-🧠 Core Backend Pipeline (High-Level)
-Authenticated User
-      ↓
+User Authentication
+↓
 Image Upload (Prescription / Medicine)
-      ↓
-OCR Extraction (Raw Text)
-      ↓
-LLM → Structured JSON
-      ↓
-Rule Engine (User Context + OCR JSON)
-      ↓
-Final Actionable Medicine Plan (API Response)
-
-🔐 Authentication Module
-
-User Signup & Login
-
-Session / token-based authentication
-
-All medicine processing APIs are protected
-
-Ensures user-specific and secure processing
-
-📷 OCR + LLM Pipeline (Stage 1)
-Purpose
-
-Convert uploaded images into structured medicine data.
-
-Steps
-
-OCR extracts raw text from the uploaded image
-
-LLM processes OCR text and returns structured JSON
-
-Confidence level assigned based on extraction quality
-
-Structured OCR Output Example
-{
-  "type": "PRESCRIPTION",
-  "medicines": [
-    {
-      "name": "Paracetamol",
-      "dosage": "500mg",
-      "frequency": "3 times a day",
-      "durationDays": "5"
-    }
-  ],
-  "confidence": "medium"
-}
+↓
+OCR Extraction
+↓
+LLM-Based Structured Data Generation
+↓
+User Context + OCR JSON Payload
+↓
+Rule Engine (Safety Validation)
+↓
+Final Actionable Safety Response
 
 
-This output is passed to the Rule Engine.
+---
 
-⚙️ Rule Engine Pipeline (Stage 2)
-Input Payload
-{
-  "userContext": {
-    "age": 30,
-    "conditions": ["diabetes"],
-    "foodState": "after",
-    "time": "morning"
-  },
-  "document": { /* OCR + LLM structured JSON */ }
-}
+## 🔐 Authentication Module
 
-Responsibilities
+- User authentication is mandatory
+- Secure APIs protected using auth middleware
+- Each request is mapped to a **specific user**
+- Ensures:
+  - Data isolation
+  - Personalized recommendations
+  - Secure history tracking
 
-Validate medicine safety
+---
 
-Generate dosage schedules
+## 📷 OCR + LLM Pipeline (Core Feature)
 
-Assign risk levels (low / medium / high)
+### Step 1: OCR Extraction
+- Accepts image input (medicine strip or prescription)
+- Extracts raw text using OCR service
+- Handles:
+  - Low-quality images
+  - Partial medicine names
+  - Dosage patterns
 
-Detect prescription availability
+### Step 2: LLM Structuring
+- Raw OCR text is passed to an LLM
+- LLM converts unstructured text into **structured JSON**, including:
+  - Medicine name
+  - Dosage
+  - Frequency
+  - Purpose
+  - Instructions
 
-Add warnings and fallback messages
+This pipeline is the **first and most critical backend component**.
 
-Provide confidence score
+---
 
-📤 Final API Response
-{
-  "statusCode": 201,
-  "message": "Structured data processed successfully",
-  "data": {
-    "type": "medicine_to_actionable_plan",
-    "confidence": "low",
-    "medicines": [
-      {
-        "name": "Acetaminophen",
-        "dosage": "1500 mg",
-        "schedule": [
-          {
-            "time": "08:00",
-            "relation": "after food",
-            "message_en": "Take Acetaminophen at 08:00 (after food)",
-            "message_hi": "Acetaminophen 08:00 बजे लें (after food)"
-          }
-        ],
-        "purpose": ["Pain relief and fever reduction"],
-        "riskLevel": "low",
-        "confidence": "medium",
-        "ruleMatched": true,
-        "fallbackReason": null,
-        "warnings": [
-          {
-            "level": "info",
-            "message_en": "No confirmed active prescription. Please consult a doctor.",
-            "message_hi": "कोई सक्रिय प्रिस्क्रिप्शन नहीं मिला। डॉक्टर से पुष्टि करें।"
-          }
-        ],
-        "hasActivePrescription": false,
-        "isPrescriptionFlow": false
-      }
-    ]
-  },
-  "success": true
-}
+## 🧠 Rule Engine Processing
+
+The structured OCR output is combined with **user health context** and passed to the Rule Engine.
+
+### Inputs:
+- OCR-generated structured medicine JSON
+- User context:
+  - Age
+  - Existing conditions
+  - Food state
+  - Time of intake
+  - Other constraints
+
+### Rule Engine Responsibilities:
+- Safety checks
+- Risk categorization
+- Dosage validation
+- Timing conflicts
+- Food interaction rules
+- Prescription requirement validation
+
+---
+
+## 📤 Backend Response
+
+The final API response contains:
+
+- Overall confidence level
+- Medicine-wise analysis
+- Risk levels (Low / Medium / High)
+- Safe intake schedule
+- Warnings & alerts
+- English & Hindi instructions
+- Prescription requirement notes
+
+This response is **directly consumed by the frontend UI**.
+
+---
+
+## 🧠 API Design Philosophy
+
+- Backend-driven UI
+- Minimal frontend logic
+- Consistent structure across responses
+- Predictable error formats
+
+---
+
+## ⚠️ Error Handling
+
+- OCR failure handling
+- LLM confidence checks
+- Rule conflicts resolution
+- Safe fallbacks for incomplete data
+- Clear error messages for frontend rendering
+
+---
+
+## 🛠️ Environment Setup
+
+Create a `.env` file:
+
+```env
+PORT=xxxx
+OCR_API_KEY=xxxx
+LLM_API_KEY=xxxx
+JWT_SECRET=xxxx
+
 
 🚧 Known Limitations
 
