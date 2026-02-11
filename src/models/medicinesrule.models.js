@@ -1,6 +1,6 @@
 import mongoose, { Mongoose } from 'mongoose'
 const MedicineRuleSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true  },
   purpose:[String],
 
   avoidConditions: [String],

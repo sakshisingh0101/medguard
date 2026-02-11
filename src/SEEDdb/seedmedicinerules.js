@@ -618,7 +618,72 @@ const data = [
   missedDoseRule: "Skip missed dose",
   riskLevel: "high",
   maxDurationDays: 30
+},
+{
+  name: "Cetirizine",
+  purpose: "Relief from allergies, sneezing, runny nose, and itching",
+  avoidConditions: ["pregnancy", "liver disease"],
+  avoidWith: ["alcohol"],
+  foodRule: { type: "any", items: [] },
+  timingRules: { morning: false, night: true, intervalHours: 24 },
+  commonSideEffects: ["drowsiness", "dry mouth"],
+  missedDoseRule: "Take when remembered unless close to next dose",
+  riskLevel: "low",
+  maxDurationDays: 7
+},
+{
+  name: "Coconut Water",
+  purpose: "Natural hydration and electrolyte replenishment",
+  avoidConditions: ["kidney disease", "high potassium"],
+  avoidWith: [],
+  foodRule: { type: "any", items: [] },
+  timingRules: { morning: true, night: false, intervalHours: 12 },
+  commonSideEffects: ["bloating"],
+  missedDoseRule: "Consume when needed for hydration",
+  riskLevel: "low",
+  maxDurationDays: 5
+},
+{
+  name: "ORS",
+  purpose: "Rehydration and electrolyte balance",
+  avoidConditions: ["severe kidney disease"],
+  avoidWith: [],
+  foodRule: { type: "any", items: [] },
+  timingRules: { morning: true, night: true, intervalHours: 6 },
+  commonSideEffects: ["bloating"],
+  missedDoseRule: "Take as soon as dehydration symptoms appear",
+  riskLevel: "low",
+  maxDurationDays: 3
+},
+{
+  name: "Pantoprazole",
+  purpose: "Reduction of stomach acid and ulcer treatment",
+  avoidConditions: ["osteoporosis"],
+  avoidWith: [],
+  foodRule: { type: "required", items: ["empty stomach"] },
+  timingRules: { morning: true, night: false, intervalHours: 24 },
+  commonSideEffects: ["headache", "diarrhea"],
+  missedDoseRule: "Take before next meal, do not double dose",
+  riskLevel: "low",
+  maxDurationDays: 14
+},
+{
+  name: "Vitamin Zinc",
+  purpose: "Immunity support and nutritional supplementation",
+  avoidConditions: ["stomach ulcers"],
+  avoidWith: ["antibiotics"],
+  foodRule: { type: "required", items: ["after meals"] },
+  timingRules: { morning: true, night: false, intervalHours: 24 },
+  commonSideEffects: ["nausea", "metallic taste"],
+  missedDoseRule: "Skip missed dose if close to next scheduled dose",
+  riskLevel: "low",
+  maxDurationDays: 30
 }
+
+
+
+
+
 
 
 

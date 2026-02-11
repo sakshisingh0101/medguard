@@ -1178,25 +1178,46 @@ const handlePrescriptionUpload = async (structured, user) => {
 /* -------------------- CONTROLLER -------------------- */
 
 export const processStructuredResultController = asyncHandler(async (req, res) => {
-  const { userContext, document } = req.body;
+  // const { userContext, document } = req.body;
 
-  if (!req.user || !document?.type) {
-    return res
-      .status(400)
-      .json(new ApiResponse(400, "Invalid request", null));
-  }
+  // if (!req.user || !document?.type) {
+  //   return res
+  //     .status(400)
+  //     .json(new ApiResponse(400, "Invalid request", null));
+  // }
+const { userContext, document } = req.body;
+
+if (!req.user || !document) {
+  return res
+    .status(400)
+    .json(new ApiResponse(400, "Invalid request", null));
+}
+
+// 🔥 NORMALIZE TYPE (THIS FIXES YOUR BUG)
+const normalizedType = document.type?.toUpperCase() || "MEDICINE";
+document.type = normalizedType;
 
   const enrichedUser = {
     ...req.user.toObject(),
     ...userContext
   };
 
-  const result =
-    document.type === "MEDICINE"
-      ? await handleMedicineUpload(document, enrichedUser)
-      : document.type === "PRESCRIPTION"
-      ? await handlePrescriptionUpload(document, enrichedUser)
-      : null;
+  // const result =
+  //   document.type === "MEDICINE"
+  //     ? await handleMedicineUpload(document, enrichedUser)
+  //     : document.type === "PRESCRIPTION"
+  //     ? await handlePrescriptionUpload(document, enrichedUser)
+  //     : null;
+   
+
+      let result;
+
+if (document.type === "PRESCRIPTION") {
+  result = await handlePrescriptionUpload(document, enrichedUser);
+} else {
+  // default safe fallback
+  result = await handleMedicineUpload(document, enrichedUser);
+}
 
   if (!result) {
     return res
